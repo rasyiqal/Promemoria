@@ -1,5 +1,7 @@
 import 'package:doa/pages/Home/Doa/Doa.dart';
 import 'package:doa/pages/Home/alarm/alarm.dart';
+import 'package:doa/pages/Home/appBar/alarm_appBar.dart';
+import 'package:doa/pages/Home/appBar/home_appBar.dart';
 import 'package:doa/pages/Home/home/home_model.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
@@ -13,26 +15,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
+
   static const List<Widget> _page = <Widget>[
-    HomeScreen(),
     DoaPage(),
     AlarmPage(),
+  ];
+
+  final List<AppBar> _appbar = [
+    homeAppbar(),
+    alarmAppbar(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
-        title: Text('Home'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
-          ),
-        ],
-      ),
+      appBar: _appbar[_selectedIndex],
       body: Container(
         child: _page[_selectedIndex],
       ),
@@ -42,10 +40,6 @@ class _HomePageState extends State<HomePage> {
         animationDuration: Duration(milliseconds: 300),
         onTap: _onItemTapped,
         items: [
-          Icon(
-            Icons.home,
-            color: Colors.white,
-          ),
           Icon(
             Icons.book,
             color: Colors.white,

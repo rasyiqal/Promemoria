@@ -63,25 +63,10 @@ class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Colors.white,
-            ),
-            onPressed: () => ambilData(),
-          )
-        ],
-      ),
       body: ListView(children: [
         Container(
-            margin: const EdgeInsets.only(
-              top: 24,
-              bottom: 24,
-            ),
-            // alignment: const Alignment(0.0, 0.0),
+            margin: const EdgeInsets.all(40),
+            alignment: const Alignment(0.0, 0.0),
             child: Column(
               children: [
                 const Text(
@@ -108,7 +93,7 @@ class _AlarmPageState extends State<AlarmPage> {
                 )
               : (error)
                   ? Container(
-                      margin: const EdgeInsets.all(24),
+                      margin: const EdgeInsets.all(50),
                       alignment: const Alignment(0.0, 0.0),
                       child: const Text('Gagal load data...'))
                   : Column(
@@ -117,92 +102,46 @@ class _AlarmPageState extends State<AlarmPage> {
                         Card(
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
-                              title: Text(
-                                "Subuh",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.alarm,
-                                size: 40,
-                                color: Colors.blue,
-                              ),
+                              title: const Text("Subuh"),
+                              leading: const Icon(Icons.alarm),
                               trailing: Text(datasubuh)),
                         ),
                         Card(
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
-                              title: Text(
-                                "Dzuhur",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.alarm,
-                                size: 40,
-                                color: Colors.blue,
-                              ),
+                              title: const Text("Dzuhur"),
+                              leading: const Icon(Icons.alarm),
                               trailing: Text(datadzuhur)),
                         ),
                         Card(
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
-                              title: Text(
-                                "Ashar",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.alarm,
-                                size: 40,
-                                color: Colors.blue,
-                              ),
+                              title: const Text("Ashar"),
+                              leading: const Icon(Icons.alarm),
                               trailing: Text(dataashar)),
                         ),
                         Card(
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
-                              title: Text(
-                                "Maghrib",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.alarm,
-                                size: 40,
-                                color: Colors.blue,
-                              ),
+                              title: const Text("Maghrib"),
+                              leading: const Icon(Icons.alarm),
                               trailing: Text(datamaghrib)),
                         ),
                         Card(
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
-                              title: Text(
-                                "Isya",
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.alarm,
-                                size: 40,
-                                color: Colors.blue,
-                              ),
+                              title: const Text("Isya"),
+                              leading: const Icon(Icons.alarm),
                               trailing: Text(dataisya)),
                         ),
                       ],
                     ),
         ),
       ]),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.refresh),
+        onPressed: () => ambilData(),
+      ),
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:doa/data/api/model.dart';
+import 'package:doa/data/api/doa_model.dart';
 import 'package:doa/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
@@ -33,7 +33,7 @@ class _DoaPageState extends State<DoaPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     child: Card(
-                      elevation: 4.0,
+                      elevation: 10.0,
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
