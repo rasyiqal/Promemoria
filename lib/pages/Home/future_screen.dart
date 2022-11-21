@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class FutureScreen extends StatefulWidget {
+  const FutureScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FutureScreen> createState() => _FutureScreen();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FutureScreen extends State<FutureScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _page = <Widget>[

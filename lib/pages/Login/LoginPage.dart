@@ -1,3 +1,4 @@
+import 'package:doa/pages/Home/future_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 
@@ -156,8 +157,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (route) => false);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>FutureScreen(),
+                ));
           },
         ),
       ),
