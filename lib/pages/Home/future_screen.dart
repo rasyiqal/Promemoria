@@ -2,10 +2,10 @@ import 'package:doa/pages/Home/Doa/Doa.dart';
 import 'package:doa/pages/Home/alarm/alarm.dart';
 import 'package:doa/pages/Home/appBar/alarm_appBar.dart';
 import 'package:doa/pages/Home/appBar/home_appBar.dart';
-import 'package:doa/pages/Home/home/home_model.dart';
+import 'package:doa/services/local_notif_service.dart';
 import 'package:flutter/material.dart';
-import 'package:doa/theme/theme.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FutureScreen extends StatefulWidget {
   const FutureScreen({super.key});

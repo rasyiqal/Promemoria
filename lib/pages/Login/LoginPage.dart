@@ -1,6 +1,11 @@
+import 'package:doa/pages/Home/Doa/Doa.dart';
 import 'package:doa/pages/Home/future_screen.dart';
+import 'package:doa/pages/Register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'package:doa/data/api/user_api.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,7 +15,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isHidden = true;
+  bool _obscureText = true;
+  bool isShowPassword = false;
+  final usernameController = TextEditingController(text: '');
+  final passwordController = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -82,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          LoginTextField(),
+                          UsernameTextField(),
                           PasswordTextField(),
                           SizedBox(
                             height: 56,
@@ -102,13 +111,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container LoginTextField() {
+  Container UsernameTextField() {
     return Container(
       padding: EdgeInsets.only(
         top: 24,
       ),
       child: TextFormField(
+        controller: usernameController,
         decoration: InputDecoration(
+          hintText: 'username',
           icon: Icon(
             Icons.person,
             color: Colors.deepPurple.shade400,
@@ -121,18 +132,24 @@ class _LoginPageState extends State<LoginPage> {
   Container PasswordTextField() {
     return Container(
       child: TextFormField(
+        obscureText: (isShowPassword) ? false : true,
+        controller: passwordController,
         decoration: InputDecoration(
-          suffix: InkWell(
-            onTap: _togglePasswordView,
-            child: Icon(
-              _isHidden ? Icons.visibility : Icons.visibility_off,
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              icon: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
             ),
-          ),
-          icon: Icon(
-            Icons.key,
-            color: Colors.deepPurple.shade400,
-          ),
-        ),
+            icon: Icon(
+              Icons.key,
+              color: Colors.deepPurple.shade400,
+            ),
+            hintText: 'password'),
       ),
     );
   }
@@ -157,15 +174,61 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>FutureScreen(),
-                ));
+            login(usernameController.text, passwordController.text);
           },
         ),
       ),
     );
+  }
+
+  void login(String usernameController, passwordController) async {
+    try {
+      // GET data from json
+      var response = await Dio().get('http://localhost:3000/user');
+      // inisialisasi panjang data
+      var panjang_data = response.data.length;
+      if (response.statusCode == 200) {
+        // pengecekan dengan perulangan dan percabangan,
+        // input akan dicek dari semua data yg sudah ada di json
+        for (var i = 0; i <= panjang_data; i++) {
+          if (usernameController == response.data[i]['user'] &&
+              passwordController == response.data[i]['password']) {
+            print("Login success");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FutureScreen(),
+              ),
+            );
+            break;
+          }
+        }
+      } else {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text(
+            'Login failed',
+            style: TextStyle(
+              fontFamily: 'Poppins-Regular',
+              color: Colors.white,
+            ),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text(
+          'Username atau Password salah',
+          style: TextStyle(
+            fontFamily: 'Poppins-Regular',
+            color: Colors.white,
+          ),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   Container RegisterButton(context) {
@@ -188,7 +251,11 @@ class _LoginPageState extends State<LoginPage> {
                   fontWeight: bold,
                 )),
             onPressed: () {
-              Navigator.pushNamed(context, '/register');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterPage(),
+                  ));
             },
           ),
         ],
@@ -196,10 +263,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _togglePasswordView() {
-    setState(() {
-      _isHidden:
-      !_isHidden;
-    });
-  }
+  // void _toggle() {
+  //   setState(() {
+  //     _obscureText = !_obscureText;
+  //   });
+  // }
+
 }

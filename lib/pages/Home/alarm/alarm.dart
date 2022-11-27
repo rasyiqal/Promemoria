@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
+import 'package:doa/widgets/loading.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:doa/services/local_notif_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 
 class AlarmPage extends StatefulWidget {
@@ -12,150 +17,360 @@ class AlarmPage extends StatefulWidget {
 }
 
 class _AlarmPageState extends State<AlarmPage> {
-  bool progres = false;
-  bool error = false;
-  late String datasubuh;
-  late String datadzuhur;
-  late String dataashar;
-  late String datamaghrib;
-  late String dataisya;
-  late String datatanggal;
+  NotificationServices notificationServices = NotificationServices();
+  bool notif1 = true;
+  bool notif2 = true;
+  bool notif3 = true;
+  bool notif4 = true;
+  bool notif5 = true;
+
+  // ignore: prefer_typing_uninitialized_variables
+  late var loading;
+  // ignore: prefer_typing_uninitialized_variables
+  late var datasubuh;
+  late var datadzuhur;
+  late var dataashar;
+  late var datamaghrib;
+
+  late var dataisya;
+  late int datajamIsya;
+  late int menitIsya;
+  late var datatanggal;
+  late var font = TextStyle(
+    fontSize: 19,
+  );
+  late var judul = TextStyle(
+      fontSize: 21, fontWeight: FontWeight.w500, color: Colors.grey[700]);
 
   void ambilData() async {
-    setState(() {
-      progres = true;
-    });
-
     var tanggalSekarang = DateTime.now();
     var formatTanggal = DateFormat('yyyy-MM-dd');
     String formatTanggalSekarang = formatTanggal.format(tanggalSekarang);
 
-    try {
-      // mensimulasikan request network
-      Response response = await get(Uri.parse(
-          'https://api.banghasan.com/sholat/format/json/jadwal/kota/775/tanggal/$formatTanggalSekarang'));
-      Map data = jsonDecode(response.body);
-      String subuh = data['jadwal']['data']['subuh'];
-      String dzuhur = data['jadwal']['data']['dzuhur'];
-      String ashar = data['jadwal']['data']['ashar'];
-      String maghrib = data['jadwal']['data']['maghrib'];
-      String isya = data['jadwal']['data']['isya'];
-      String tanggal = data['jadwal']['data']['tanggal'];
+    Response response = await get(Uri.parse(
+        'https://api.banghasan.com/sholat/format/json/jadwal/kota/775/tanggal/$formatTanggalSekarang'));
 
-      setState(() {
-        datasubuh = subuh;
-        datadzuhur = dzuhur;
-        dataashar = ashar;
-        datamaghrib = maghrib;
-        dataisya = isya;
-        datatanggal = tanggal;
-        progres = false;
-        error = false;
-      });
-    } catch (e) {
-      setState(() {
-        progres = false;
-        error = true;
-      });
-    }
+    Map data = jsonDecode(response.body);
+    print(data);
+    String subuh = data['jadwal']['data']['subuh'];
+    String dzuhur = data['jadwal']['data']['dzuhur'];
+    String ashar = data['jadwal']['data']['ashar'];
+    String maghrib = data['jadwal']['data']['maghrib'];
+
+    String tanggal = data['jadwal']['data']['tanggal'];
+
+    String isya = data['jadwal']['data']['isya'];
+    int jamisya = int.parse(isya.substring(0, 2));
+    int menitisya = int.parse(isya.substring(3, 5));
+
+    setState(() {
+      datasubuh = Text(subuh, style: font);
+      datadzuhur = Text(dzuhur, style: font);
+      dataashar = Text(ashar, style: font);
+      datamaghrib = Text(maghrib, style: font);
+      dataisya = Text(isya, style: font);
+      datatanggal = Text(tanggal, style: judul);
+      datajamIsya = jamisya;
+      menitIsya = menitisya;
+    });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(children: [
-        Container(
-            margin: const EdgeInsets.all(40),
-            alignment: const Alignment(0.0, 0.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Kota Malang',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-                Text(
-                  datatanggal,
-                  style: const TextStyle(fontSize: 15),
-                ),
-              ],
-            )),
-        Center(
-          child: (progres)
-              ? Container(
-                  padding: const EdgeInsets.all(100),
-                  child: const CircularProgressIndicator(
-                    backgroundColor: Colors.grey,
-                    color: Colors.blue,
-                    strokeWidth: 5,
-                  ),
-                )
-              : (error)
-                  ? Container(
-                      margin: const EdgeInsets.all(50),
-                      alignment: const Alignment(0.0, 0.0),
-                      child: const Text('Gagal load data...'))
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                              title: const Text("Subuh"),
-                              leading: const Icon(Icons.alarm),
-                              trailing: Text(datasubuh)),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                              title: const Text("Dzuhur"),
-                              leading: const Icon(Icons.alarm),
-                              trailing: Text(datadzuhur)),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                              title: const Text("Ashar"),
-                              leading: const Icon(Icons.alarm),
-                              trailing: Text(dataashar)),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                              title: const Text("Maghrib"),
-                              leading: const Icon(Icons.alarm),
-                              trailing: Text(datamaghrib)),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                              title: const Text("Isya"),
-                              leading: const Icon(Icons.alarm),
-                              trailing: Text(dataisya)),
-                        ),
-                      ],
-                    ),
-        ),
-      ]),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.refresh),
-        onPressed: () => ambilData(),
-      ),
-    );
+  int _selectedTabIndex = 0;
+  void _onNavBarTapped(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    progres = false;
-    error = false;
-    datasubuh = '00:00';
-    datadzuhur = '00:00';
-    dataashar = '00:00';
-    datamaghrib = '00:00';
-    dataisya = '00:00';
-    datatanggal = 'Hari, tanggal';
+    super.initState();
+    notificationServices.initialisetNotifications();
+    loading = const Loading();
+    datasubuh = loading;
+    datadzuhur = loading;
+    dataashar = loading;
+    datamaghrib = loading;
+    dataisya = loading;
+    datatanggal = const LoadingTanggal();
+    ambilData();
+    print('tunggu sebentar ...');
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+            top: 56,
+            left: 24,
+            right: 24,
+          ),
+          child: Text(
+            'Jadwal Sholat',
+            style: blackTextStyle.copyWith(
+                fontSize: 30, fontWeight: semiBold, letterSpacing: 0.3),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Icon(
+                Icons.location_on_outlined,
+                size: 30,
+              ),
+            ),
+            Text(
+              "Kota Malang",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            )
+          ],
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(255, 92, 90, 90).withOpacity(0.2),
+                spreadRadius: 0.5,
+                blurRadius: 4,
+                offset: Offset(3, 4), // changes position of shadow
+              ),
+            ],
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                          height: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: datatanggal,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  'Subuh',
+                                  style: font,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  'Dzuhur',
+                                  style: font,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  'Ashar',
+                                  style: font,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  'Maghrib',
+                                  style: font,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  'Isya',
+                                  style: font,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    datasubuh,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // notifikasi_shubuh();
+                                          setState(() {
+                                            notif1 = !notif1;
+                                          });
+                                        },
+                                        child: Icon(
+                                          notif1
+                                              ? Icons.notifications_none
+                                              : Icons.notifications,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    datadzuhur,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // notifikasi_dhuhur();
+                                          setState(() {
+                                            notif2 = !notif2;
+                                          });
+                                        },
+                                        child: Icon(
+                                          notif2
+                                              ? Icons.notifications_none
+                                              : Icons.notifications,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    dataashar,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            // notifikasi_ashar();
+                                            notif3 = !notif3;
+                                          });
+                                        },
+                                        child: Icon(
+                                          notif3
+                                              ? Icons.notifications_none
+                                              : Icons.notifications,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    datamaghrib,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            // notifikasi_maghrib();
+                                            notif4 = !notif4;
+                                          });
+                                        },
+                                        child: Icon(
+                                          notif4
+                                              ? Icons.notifications_none
+                                              : Icons.notifications,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    dataisya,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            notificationServices
+                                                .sendNotification(
+                                              'title',
+                                              'body',
+                                              datajamIsya,
+                                              menitIsya,
+                                            );
+                                            // notifikasi_maghrib();
+                                            notif5 = !notif5;
+                                          });
+                                        },
+                                        child: Icon(
+                                          notif5
+                                              ? Icons.notifications_none
+                                              : Icons.notifications,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -13,43 +13,50 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.all(
-            24,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Register',
-                style: blueTextStyle.copyWith(
-                  fontSize: 32,
-                  fontWeight: bold,
-                ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Center(
+            child: Container(
+              margin: EdgeInsets.all(
+                24,
               ),
-              SizedBox(
-                height: 40,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Register',
+                    style: blueTextStyle.copyWith(
+                      fontSize: 32,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                  ),
+                  UsernameTextField(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  EmailTextField(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  PasswordTextField(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  SecondaryPasswordTextField(),
+                  SizedBox(
+                    height: 42,
+                  ),
+                  SizedBox(
+                    height: 80,
+                  ),
+                  RegisterButton(context),
+                  LoginrButton(),
+                ],
               ),
-              UsernameTextField(),
-              SizedBox(
-                height: 16,
-              ),
-              EmailTextField(),
-              SizedBox(
-                height: 16,
-              ),
-              PasswordTextField(),
-              SizedBox(
-                height: 16,
-              ),
-              SecondaryPasswordTextField(),
-              SizedBox(
-                height: 42,
-              ),
-              RegisterButton(context),
-              LoginrButton(),
-            ],
+            ),
           ),
         ),
       ),
@@ -66,14 +73,6 @@ class _RegisterPageState extends State<RegisterPage> {
           icon: Icon(
             Icons.person,
             color: Colors.blue,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              15,
-            ),
-            borderSide: const BorderSide(
-              color: Colors.blue,
-            ),
           ),
           hintText: "Isi nama mu",
           labelText: "Nama",
@@ -97,14 +96,6 @@ class _RegisterPageState extends State<RegisterPage> {
             Icons.key,
             color: Colors.blue,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              15,
-            ),
-            borderSide: const BorderSide(
-              color: Colors.blue,
-            ),
-          ),
           hintText: "Isi Password",
           labelText: "Password",
         ),
@@ -126,14 +117,6 @@ class _RegisterPageState extends State<RegisterPage> {
             Icons.key,
             color: Colors.blue,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              15,
-            ),
-            borderSide: const BorderSide(
-              color: Colors.blue,
-            ),
-          ),
           hintText: "Isi Password",
           labelText: "Password",
         ),
@@ -148,14 +131,6 @@ class _RegisterPageState extends State<RegisterPage> {
           icon: Icon(
             Icons.mail,
             color: Colors.blue,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              15,
-            ),
-            borderSide: const BorderSide(
-              color: Colors.blue,
-            ),
           ),
           hintText: "Email",
           labelText: "Email",
@@ -205,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Text(
               'Login',
               style: blueTextStyle.copyWith(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: semiBold,
               ),
             ),
