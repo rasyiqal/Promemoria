@@ -2,13 +2,12 @@ import 'package:doa/pages/Home/Doa/Doa.dart';
 import 'package:doa/pages/Home/alarm/alarm.dart';
 import 'package:doa/pages/Home/appBar/alarm_appBar.dart';
 import 'package:doa/pages/Home/appBar/home_appBar.dart';
-import 'package:doa/services/local_notif_service.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FutureScreen extends StatefulWidget {
-  const FutureScreen({super.key});
+  Function setTheme;
+  FutureScreen({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   State<FutureScreen> createState() => _FutureScreen();
@@ -17,14 +16,14 @@ class FutureScreen extends StatefulWidget {
 class _FutureScreen extends State<FutureScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _page = <Widget>[
-    DoaPage(),
-    AlarmPage(),
-  ];
-
   final List<AppBar> _appbar = [
     homeAppbar(),
     alarmAppbar(),
+  ];
+
+  late List<Widget> _page = <Widget>[
+    DoaPage(setTheme: widget.setTheme),
+    AlarmPage(),
   ];
 
   @override

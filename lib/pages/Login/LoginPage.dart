@@ -4,11 +4,10 @@ import 'package:doa/pages/Register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'package:doa/data/api/user_api.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  Function setTheme;
+  LoginPage({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -174,7 +173,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           onPressed: () {
-            login(usernameController.text, passwordController.text);
+            // login(usernameController.text, passwordController.text);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FutureScreen(setTheme: widget.setTheme),
+              ),
+            );
           },
         ),
       ),
@@ -184,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
   void login(String usernameController, passwordController) async {
     try {
       // GET data from json
-      var response = await Dio().get('http://localhost:3000/user');
+      var response = await Dio().get('http://192.168.43.14:3000/user');
       // inisialisasi panjang data
       var panjang_data = response.data.length;
       if (response.statusCode == 200) {
@@ -197,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FutureScreen(),
+                builder: (context) => FutureScreen(setTheme: widget.setTheme),
               ),
             );
             break;

@@ -1,16 +1,26 @@
 import 'package:doa/data/api/doa_model.dart';
 import 'package:doa/services/api_service.dart';
+import 'package:doa/widgets/darktheme.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPref.init();
+}
+
 class DoaPage extends StatefulWidget {
-  const DoaPage({super.key});
+  Function setTheme;
+  DoaPage({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   State<DoaPage> createState() => _DoaPageState();
 }
 
 class _DoaPageState extends State<DoaPage> {
+  ThemeData themeData = ThemeData.light();
+  bool isDarkMode = SharedPref.pref?.getBool('isDarkMode') ?? false;
+
   ApiService apiService = ApiService();
   @override
   void initState() {
@@ -44,7 +54,10 @@ class _DoaPageState extends State<DoaPage> {
                   horizontal: 18,
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    isDarkMode = !isDarkMode;
+                    widget.setTheme(isDarkMode);
+                  },
                   icon: Icon(
                     Icons.light_mode,
                     color: kWhiteColor,

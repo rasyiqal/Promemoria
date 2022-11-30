@@ -28,13 +28,25 @@ class _AlarmPageState extends State<AlarmPage> {
   late var loading;
   // ignore: prefer_typing_uninitialized_variables
   late var datasubuh;
+  late int datajamSubuh;
+  late int datamenitSubuh;
+
   late var datadzuhur;
+  late int datajamDzuhur;
+  late int datamenitDzuhur;
+
   late var dataashar;
+  late int datajamAshar;
+  late int datamenitAshar;
+
   late var datamaghrib;
+  late int datajamMaghrib;
+  late int datamenitMaghrib;
 
   late var dataisya;
   late int datajamIsya;
-  late int menitIsya;
+  late int datamenitIsya;
+
   late var datatanggal;
   late var font = TextStyle(
     fontSize: 19,
@@ -53,25 +65,49 @@ class _AlarmPageState extends State<AlarmPage> {
     Map data = jsonDecode(response.body);
     print(data);
     String subuh = data['jadwal']['data']['subuh'];
-    String dzuhur = data['jadwal']['data']['dzuhur'];
-    String ashar = data['jadwal']['data']['ashar'];
-    String maghrib = data['jadwal']['data']['maghrib'];
+    int jamSubuh = int.parse(subuh.substring(0, 2));
+    int menitSubuh = int.parse(subuh.substring(3, 5));
 
-    String tanggal = data['jadwal']['data']['tanggal'];
+    String dzuhur = data['jadwal']['data']['dzuhur'];
+    int jamDzuhur = int.parse(dzuhur.substring(0, 2));
+    int menitDzuhur = int.parse(dzuhur.substring(3, 5));
+
+    String ashar = data['jadwal']['data']['ashar'];
+    int jamAshar = int.parse(ashar.substring(0, 2));
+    int menitashar = int.parse(ashar.substring(3, 5));
+
+    String maghrib = data['jadwal']['data']['maghrib'];
+    int jamMaghrib = int.parse(maghrib.substring(0, 2));
+    int menitmaghrib = int.parse(maghrib.substring(3, 5));
 
     String isya = data['jadwal']['data']['isya'];
     int jamisya = int.parse(isya.substring(0, 2));
     int menitisya = int.parse(isya.substring(3, 5));
 
+    String tanggal = data['jadwal']['data']['tanggal'];
+
     setState(() {
       datasubuh = Text(subuh, style: font);
+      datajamSubuh = jamSubuh;
+      datamenitSubuh = menitSubuh;
+
       datadzuhur = Text(dzuhur, style: font);
+      datajamDzuhur = jamDzuhur;
+      datamenitDzuhur = menitDzuhur;
+
       dataashar = Text(ashar, style: font);
+      datajamAshar = jamAshar;
+      datamenitAshar = menitashar;
+
       datamaghrib = Text(maghrib, style: font);
+      datajamMaghrib = jamMaghrib;
+      datamenitMaghrib = menitmaghrib;
+
       dataisya = Text(isya, style: font);
-      datatanggal = Text(tanggal, style: judul);
       datajamIsya = jamisya;
-      menitIsya = menitisya;
+      datamenitIsya = menitisya;
+
+      datatanggal = Text(tanggal, style: judul);
     });
   }
 
@@ -233,6 +269,13 @@ class _AlarmPageState extends State<AlarmPage> {
                                       padding: const EdgeInsets.only(left: 10),
                                       child: GestureDetector(
                                         onTap: () {
+                                          notificationServices
+                                                .sendNotification(
+                                              'Adzan Subuh',
+                                              'Sholat Dulu',
+                                              datajamMaghrib,
+                                              datamenitMaghrib,
+                                            );
                                           // notifikasi_shubuh();
                                           setState(() {
                                             notif1 = !notif1;
@@ -259,6 +302,13 @@ class _AlarmPageState extends State<AlarmPage> {
                                       padding: const EdgeInsets.only(left: 10),
                                       child: GestureDetector(
                                         onTap: () {
+                                          notificationServices
+                                                .sendNotification(
+                                              'Adzan Dzuhur',
+                                              'Sholat Dulu',
+                                              datajamMaghrib,
+                                              datamenitMaghrib,
+                                            );
                                           // notifikasi_dhuhur();
                                           setState(() {
                                             notif2 = !notif2;
@@ -286,6 +336,13 @@ class _AlarmPageState extends State<AlarmPage> {
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {
+                                            notificationServices
+                                                .sendNotification(
+                                              'Adzan Ashar',
+                                              'Sholat Dulu',
+                                              datajamMaghrib,
+                                              datamenitMaghrib,
+                                            );
                                             // notifikasi_ashar();
                                             notif3 = !notif3;
                                           });
@@ -312,7 +369,15 @@ class _AlarmPageState extends State<AlarmPage> {
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {
+                                            notificationServices
+                                                .sendNotification(
+                                              'Adzan Maghrib',
+                                              'Sholat Dulu',
+                                              datajamMaghrib,
+                                              datamenitMaghrib,
+                                            );
                                             // notifikasi_maghrib();
+
                                             notif4 = !notif4;
                                           });
                                         },
@@ -340,10 +405,10 @@ class _AlarmPageState extends State<AlarmPage> {
                                           setState(() {
                                             notificationServices
                                                 .sendNotification(
-                                              'title',
-                                              'body',
+                                              'Adzan Isya',
+                                              'Sholat Dulu',
                                               datajamIsya,
-                                              menitIsya,
+                                              datamenitIsya,
                                             );
                                             // notifikasi_maghrib();
                                             notif5 = !notif5;
