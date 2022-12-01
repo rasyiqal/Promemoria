@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:doa/pages/Home/Doa/Doa.dart';
 import 'package:doa/pages/Home/future_screen.dart';
 import 'package:doa/pages/Register/RegisterPage.dart';
@@ -23,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -118,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: usernameController,
         decoration: InputDecoration(
-          hintText: 'username',
+          hintText: 'Username',
           icon: Icon(
             Icons.person,
             color: Colors.deepPurple.shade400,
@@ -243,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Text(
             'Belum punya akun ? Silahkan',
-            style: blackAccentTextStyle.copyWith(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: regular,
             ),

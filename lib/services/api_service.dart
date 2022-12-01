@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
     var result = await http.get(Uri.parse(apiUrl));
     List<dynamic> listJson = json.decode(result.body);
     // print(listJson);
-    // print(listJson.map((e) => Ramen.fromJson(e)).toList().toString());
+    print(listJson.map((e) => Doa.fromJson(e)).toList().toString());
     return listJson.map((e) => Doa.fromJson(e)).toList();
   }
 }

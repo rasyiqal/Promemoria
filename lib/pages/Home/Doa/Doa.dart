@@ -98,7 +98,7 @@ class _DoaPageState extends State<DoaPage> {
                               // leading: Icon(Icons.arrow_drop_down_circle),
                               title: Text(
                                 doa[index].doa,
-                                style: blackAccentTextStyle.copyWith(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: bold,
                                 ),
@@ -132,7 +132,7 @@ class _DoaPageState extends State<DoaPage> {
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
                                 doa[index].artinya,
-                                style: blackTextStyle.copyWith(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: regular,
                                 ),
