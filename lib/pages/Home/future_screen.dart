@@ -90,7 +90,7 @@ class _FutureScreen extends State<FutureScreen> {
   final List<AppBar> _appbar = [
     homeAppbar(),
     alarmAppbar(),
-    profileAppbar(),
+    // profileAppbar(),
   ];
 
   late List<Widget> _page = <Widget>[

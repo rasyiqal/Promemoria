@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -10,6 +11,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool _isHidden = true;
+  final usernameController = TextEditingController(text: '');
+  final passwordController = TextEditingController(text: '');
+  final passwordConfirm = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Text(
                     'Register',
-                    style: blueTextStyle.copyWith(
+                    style: TextStyle(
+                      color: Colors.deepPurple,
                       fontSize: 32,
                       fontWeight: bold,
                     ),
@@ -37,15 +43,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 24,
                   ),
-                  EmailTextField(),
-                  SizedBox(
-                    height: 24,
-                  ),
                   PasswordTextField(),
                   SizedBox(
                     height: 24,
                   ),
-                  SecondaryPasswordTextField(),
+                  ConfirmPasswordTextField(),
                   SizedBox(
                     height: 42,
                   ),
@@ -69,11 +71,9 @@ class _RegisterPageState extends State<RegisterPage> {
         top: 24,
       ),
       child: TextFormField(
+        controller: usernameController,
         decoration: InputDecoration(
-          icon: Icon(
-            Icons.person,
-            color: Colors.blue,
-          ),
+          icon: Icon(Icons.person, color: Colors.deepPurple),
           hintText: "Isi nama mu",
           labelText: "Nama",
         ),
@@ -84,6 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Container PasswordTextField() {
     return Container(
       child: TextFormField(
+        controller: passwordController,
         obscureText: _isHidden,
         decoration: InputDecoration(
           suffix: InkWell(
@@ -92,10 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
               _isHidden ? Icons.visibility : Icons.visibility_off,
             ),
           ),
-          icon: Icon(
-            Icons.key,
-            color: Colors.blue,
-          ),
+          icon: Icon(Icons.key, color: Colors.deepPurple),
           hintText: "Isi Password",
           labelText: "Password",
         ),
@@ -103,9 +101,10 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Container SecondaryPasswordTextField() {
+  Container ConfirmPasswordTextField() {
     return Container(
       child: TextFormField(
+        controller: passwordController,
         decoration: InputDecoration(
           suffix: InkWell(
             onTap: _togglePasswordView,
@@ -113,27 +112,9 @@ class _RegisterPageState extends State<RegisterPage> {
               _isHidden ? Icons.visibility : Icons.visibility_off,
             ),
           ),
-          icon: Icon(
-            Icons.key,
-            color: Colors.blue,
-          ),
+          icon: Icon(Icons.key, color: Colors.deepPurple),
           hintText: "Isi Password",
           labelText: "Password",
-        ),
-      ),
-    );
-  }
-
-  Container EmailTextField() {
-    return Container(
-      child: TextFormField(
-        decoration: InputDecoration(
-          icon: Icon(
-            Icons.mail,
-            color: Colors.blue,
-          ),
-          hintText: "Email",
-          labelText: "Email",
         ),
       ),
     );
@@ -153,7 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.deepPurple,
             padding: EdgeInsets.symmetric(
               horizontal: 24,
             ),
@@ -171,15 +152,16 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           Text(
             'Sudah mempunyai akun ? Silahkan',
-            style: blackAccentTextStyle.copyWith(
+            style: TextStyle(
               fontSize: 12,
-              fontWeight: semiBold,
+              fontWeight: regular,
             ),
           ),
           TextButton(
             child: Text(
               'Login',
-              style: blueTextStyle.copyWith(
+              style: TextStyle(
+                color: Colors.deepPurple,
                 fontSize: 14,
                 fontWeight: semiBold,
               ),

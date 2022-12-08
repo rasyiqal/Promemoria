@@ -1,23 +1,17 @@
-import 'dart:ui';
-
-import 'package:doa/pages/Home/Doa/Doa.dart';
-import 'package:doa/pages/Home/future_screen.dart';
 import 'package:doa/pages/Register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
-  Function setTheme;
-  LoginPage({Key? key, required this.setTheme}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _obscureText = true;
-  bool isShowPassword = false;
+  bool _isHidden = true;
   final usernameController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
 
@@ -78,8 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Text(
                       'Login',
-                      style: TextStyle(
-                        color: Color.fromRGBO(49, 39, 79, 1),
+                      style: deepPurpleTextStyle.copyWith(
                         fontWeight: bold,
                         fontSize: 30,
                       ),
@@ -119,11 +112,9 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: usernameController,
         decoration: InputDecoration(
-          hintText: 'Username',
-          icon: Icon(
-            Icons.person,
-            color: Colors.deepPurple.shade400,
-          ),
+          icon: Icon(Icons.person, color: Colors.deepPurple),
+          hintText: "Isi nama mu",
+          labelText: "Nama",
         ),
       ),
     );
@@ -132,24 +123,22 @@ class _LoginPageState extends State<LoginPage> {
   Container PasswordTextField() {
     return Container(
       child: TextFormField(
-        obscureText: (isShowPassword) ? false : true,
         controller: passwordController,
+        obscureText: _isHidden,
         decoration: InputDecoration(
-            suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              icon: Icon(
-                _obscureText ? Icons.visibility : Icons.visibility_off,
-              ),
+          suffix: InkWell(
+            onTap: _togglePasswordView,
+            child: Icon(
+              _isHidden ? Icons.visibility : Icons.visibility_off,
             ),
-            icon: Icon(
-              Icons.key,
-              color: Colors.deepPurple.shade400,
-            ),
-            hintText: 'password'),
+          ),
+          icon: Icon(
+            Icons.key,
+            color: Colors.deepPurple,
+          ),
+          hintText: "Isi Password",
+          labelText: "Password",
+        ),
       ),
     );
   }
@@ -175,12 +164,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           onPressed: () {
             // login(usernameController.text, passwordController.text);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FutureScreen(setTheme: widget.setTheme),
-              ),
-            );
+            Navigator.pushNamed(context, '/future');
           },
         ),
       ),
@@ -194,18 +178,11 @@ class _LoginPageState extends State<LoginPage> {
       // inisialisasi panjang data
       var panjang_data = response.data.length;
       if (response.statusCode == 200) {
-        // pengecekan dengan perulangan dan percabangan,
-        // input akan dicek dari semua data yg sudah ada di json
         for (var i = 0; i <= panjang_data; i++) {
-          if (usernameController == response.data[i]['user'] &&
+          if (usernameController == response.data[i]['username'] &&
               passwordController == response.data[i]['password']) {
             print("Login success");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FutureScreen(setTheme: widget.setTheme),
-              ),
-            );
+            Navigator.pushNamed(context, '/future');
             break;
           }
         }
@@ -269,10 +246,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // void _toggle() {
-  //   setState(() {
-  //     _obscureText = !_obscureText;
-  //   });
-  // }
-
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
 }

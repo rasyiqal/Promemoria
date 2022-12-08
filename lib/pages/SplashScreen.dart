@@ -1,30 +1,57 @@
+import 'dart:async';
+
+import 'package:doa/pages/Login/LoginPage.dart';
+import 'package:doa/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  Function setTheme;
+  SplashScreen({Key? key, required this.setTheme}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  void initState() {
+    Timer(Duration(milliseconds: 1500), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.symmetric(
-                vertical: 32,
-              ),
-              child: Image.asset(
-                'assets/logo.png',
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                vertical: 32,
-              ),
-              child: Image.asset(
-                'assets/splash_logo.png',
-                scale: 0.6,
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/splash_1.png',
+                    height: 180,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Prememoria',
+                      style: deepPurpleTextStyle.copyWith(
+                        fontSize: 32,
+                        fontWeight: bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

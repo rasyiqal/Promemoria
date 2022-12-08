@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 120,
           ),
           TextButton(
@@ -89,11 +89,14 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginPage(setTheme: widget.setTheme),
+                  builder: (context) => LoginPage(),
                 ),
               );
             },
           ),
+          SizedBox(
+            height: 40,
+          )
         ],
       );
 

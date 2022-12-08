@@ -1,4 +1,8 @@
+import 'package:doa/pages/Home/future_screen.dart';
+import 'package:doa/pages/Home/profile/user_list.dart';
 import 'package:doa/pages/Login/LoginPage.dart';
+import 'package:doa/pages/Register/RegisterPage.dart';
+import 'package:doa/pages/SplashScreen.dart';
 import 'package:doa/widgets/darktheme.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +42,13 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Reminder App',
       theme: themeData,
-      home: LoginPage(setTheme: setTheme),
+      routes: {
+        '/':(context) => SplashScreen(setTheme: setTheme),
+        '/login':(context) => LoginPage(),
+        '/register':(context) => RegisterPage(),
+        '/future':(context) => FutureScreen(setTheme: setTheme),
+        '/list_user':(context) => ListUser(),
+      },
     );
   }
 }

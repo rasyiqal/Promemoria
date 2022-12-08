@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 
-AppBar profileAppbar() {
+AppBar profileAppbar(context) {
   return AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.deepPurple,
@@ -9,7 +8,9 @@ AppBar profileAppbar() {
     elevation: 0,
     actions: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/list_user');
+        },
         icon: Icon(
           Icons.menu,
         ),

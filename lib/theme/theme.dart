@@ -11,6 +11,8 @@ Color kRedColor = Color(0xffFF314A);
 Color kYellowColor = Color(0xffFFBA00);
 Color kBlueColor = Color(0xff2972FF);
 Color kDarkBackgroundColor = Color(0xff252836);
+Color kDeepPurpleColor = Color.fromARGB(255,103,58,183);
+
 
 TextStyle blackTextStyle = GoogleFonts.poppins(
   color: kBlackColor,
@@ -38,6 +40,9 @@ TextStyle yellowTextStyle = GoogleFonts.poppins(
 );
 TextStyle blueTextStyle = GoogleFonts.poppins(
   color: kBlueColor,
+);
+TextStyle deepPurpleTextStyle = GoogleFonts.poppins(
+  color: kDeepPurpleColor,
 );
 
 FontWeight light = FontWeight.w300;

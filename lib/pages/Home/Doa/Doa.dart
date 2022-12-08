@@ -95,7 +95,7 @@ class _DoaPageState extends State<DoaPage> {
                         child: Column(
                           children: [
                             ListTile(
-                              // leading: Icon(Icons.arrow_drop_down_circle),
+                              
                               title: Text(
                                 doa[index].doa,
                                 style: TextStyle(
