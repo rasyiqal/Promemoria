@@ -1,4 +1,4 @@
-import 'package:doa/data/api/doa_model.dart';
+import 'package:doa/data/doa_model.dart';
 import 'package:doa/services/api_service.dart';
 import 'package:doa/widgets/darktheme.dart';
 import 'package:flutter/material.dart';

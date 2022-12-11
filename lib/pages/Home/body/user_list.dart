@@ -1,4 +1,4 @@
-import 'package:doa/data/api/user_api.dart';
+import 'package:doa/data/user_api.dart';
 import 'package:doa/pages/Home/future_screen.dart';
 import 'package:doa/services/user_api_service.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _ListUserState extends State<ListUser> {
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
             onPressed: (() {
-              Navigator.pushNamed(context, '/future');
+              Navigator.pushNamed(context, '/profile');
             }),
             icon: Icon(Icons.arrow_back_ios)),
         title: Text(

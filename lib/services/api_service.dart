@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:doa/data/api/doa_model.dart';
+import 'package:doa/data/doa_model.dart';
 import 'package:http/http.dart' as http;
 
 

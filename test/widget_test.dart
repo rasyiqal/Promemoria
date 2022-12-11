@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:doa/data/api/user_api.dart';
+import 'package:doa/data/user_api.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> main() async {

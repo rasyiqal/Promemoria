@@ -1,5 +1,6 @@
+import 'package:doa/pages/Home/body/Doa.dart';
 import 'package:doa/pages/Home/future_screen.dart';
-import 'package:doa/pages/Home/profile/user_list.dart';
+import 'package:doa/pages/Home/body/user_list.dart';
 import 'package:doa/pages/Login/LoginPage.dart';
 import 'package:doa/pages/Register/RegisterPage.dart';
 import 'package:doa/pages/SplashScreen.dart';

@@ -15,6 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
 
+  bool isShowPasswordError = false;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -149,23 +152,39 @@ class _LoginPageState extends State<LoginPage> {
         width: double.infinity,
         height: 40,
         child: TextButton(
-          child: Text(
-            'Login',
-            style: whiteTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: semiBold,
-            ),
-          ),
+          onPressed: () {
+            setState(() {
+              isLoading = true;
+            });
+            Future.delayed(
+              Duration(seconds: 2),
+              () {
+                setState(() {
+                  isLoading = false;
+                });
+                login(usernameController.text, passwordController.text);
+                // Navigator.pushNamed(context, '/future');
+              },
+            );
+          },
           style: TextButton.styleFrom(
             backgroundColor: Color.fromRGBO(49, 39, 79, 1),
             padding: EdgeInsets.symmetric(
               horizontal: 24,
             ),
           ),
-          onPressed: () {
-            // login(usernameController.text, passwordController.text);
-            Navigator.pushNamed(context, '/future');
-          },
+          child: isLoading
+              ? CircularProgressIndicator(
+                  color: kWhiteColor,
+                  backgroundColor: kGreyColor,
+                )
+              : Text(
+                  'Login',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: semiBold,
+                  ),
+                ),
         ),
       ),
     );
@@ -174,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
   void login(String usernameController, passwordController) async {
     try {
       // GET data from json
-      var response = await Dio().get('http://192.168.43.14:3000/user');
+      var response = await Dio().get('http://localhost:3000/user');
       // inisialisasi panjang data
       var panjang_data = response.data.length;
       if (response.statusCode == 200) {
@@ -182,7 +201,8 @@ class _LoginPageState extends State<LoginPage> {
           if (usernameController == response.data[i]['username'] &&
               passwordController == response.data[i]['password']) {
             print("Login success");
-            Navigator.pushNamed(context, '/future');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/future', (route) => false);
             break;
           }
         }

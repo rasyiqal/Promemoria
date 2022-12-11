@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar profileAppbar(context) {
+AppBar profileAppbar(BuildContext context) {
   return AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: Colors.deepPurple,
