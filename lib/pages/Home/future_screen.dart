@@ -2,13 +2,14 @@ import 'package:doa/pages/Home/appBar/profile_appBar.dart';
 import 'package:doa/pages/Home/body/Doa.dart';
 import 'package:doa/pages/Home/body/alarm.dart';
 import 'package:doa/pages/Home/appBar/alarm_appBar.dart';
-import 'package:doa/pages/Home/appBar/home_appBar.dart';
+import 'package:doa/pages/Home/appBar/Doa_appbar.dart';
 import 'package:doa/pages/Home/body/profile.dart';
 import 'package:flutter/material.dart';
 
 class FutureScreen extends StatefulWidget {
   Function setTheme;
-  FutureScreen({Key? key, required this.setTheme}) : super(key: key);
+  final String? user;
+  FutureScreen({Key? key, required this.setTheme, required this.user}) : super(key: key);
 
   @override
   State<FutureScreen> createState() => _FutureScreen();
@@ -19,9 +20,9 @@ class _FutureScreen extends State<FutureScreen> {
 
 
   late List<Widget> _page = <Widget>[
-    DoaPage(setTheme: widget.setTheme),
+    DoaPage(setTheme: widget.setTheme, user: widget.user ?? "-") ,
     AlarmPage(),
-    ProfilePage(setTheme: widget.setTheme),
+    ProfilePage(setTheme: widget.setTheme, user: widget.user ?? "-"),
   ];
 
   @override

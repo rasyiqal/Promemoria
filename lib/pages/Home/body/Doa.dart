@@ -11,7 +11,8 @@ Future<void> main() async {
 
 class DoaPage extends StatefulWidget {
   Function setTheme;
-  DoaPage({Key? key, required this.setTheme}) : super(key: key);
+  final String user;
+  DoaPage({Key? key, required this.setTheme, required this.user}) : super(key: key);
 
   @override
   State<DoaPage> createState() => _DoaPageState();
@@ -19,9 +20,11 @@ class DoaPage extends StatefulWidget {
 
 class _DoaPageState extends State<DoaPage> {
   ThemeData themeData = ThemeData.light();
+  bool iconLight = true;
   bool isDarkMode = SharedPref.pref?.getBool('isDarkMode') ?? false;
 
   ApiService apiService = ApiService();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -42,7 +45,7 @@ class _DoaPageState extends State<DoaPage> {
                   horizontal: 18,
                 ),
                 child: Text(
-                  ' Assalamualaikum, \n Fikri',
+                  ' Assalamualaikum \n' + widget.user,
                   style: whiteTextStyle.copyWith(
                     fontSize: 20,
                     fontWeight: bold,
@@ -57,9 +60,13 @@ class _DoaPageState extends State<DoaPage> {
                   onPressed: () {
                     isDarkMode = !isDarkMode;
                     widget.setTheme(isDarkMode);
+
+                    setState(() {
+                      iconLight = !iconLight;
+                    });
                   },
                   icon: Icon(
-                    Icons.light_mode,
+                    iconLight ? Icons.light_mode : Icons.dark_mode,
                     color: kWhiteColor,
                   ),
                 ),
@@ -95,7 +102,6 @@ class _DoaPageState extends State<DoaPage> {
                         child: Column(
                           children: [
                             ListTile(
-                              
                               title: Text(
                                 doa[index].doa,
                                 style: TextStyle(

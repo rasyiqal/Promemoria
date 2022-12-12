@@ -1,10 +1,12 @@
+import 'package:doa/pages/Home/future_screen.dart';
 import 'package:doa/pages/Register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  Function setTheme;
+  LoginPage({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -181,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
               : Text(
                   'Login',
                   style: whiteTextStyle.copyWith(
-                    fontSize: 18,
+                    fontSize: 13,
                     fontWeight: semiBold,
                   ),
                 ),
@@ -201,8 +203,13 @@ class _LoginPageState extends State<LoginPage> {
           if (usernameController == response.data[i]['username'] &&
               passwordController == response.data[i]['password']) {
             print("Login success");
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/future', (route) => false);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    FutureScreen(setTheme: widget.setTheme, user: response.data[i]['username'],),
+              ),
+            );
             break;
           }
         }

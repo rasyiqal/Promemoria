@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   Function setTheme;
-  ProfilePage({Key? key, required this.setTheme}) : super(key: key);
+  final String? user;
+  ProfilePage({Key? key, required this.setTheme, required this.user}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -52,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 8,
           ),
           Text(
-            'Rasyiqal Fikri',
+            widget.user ?? "-",
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w600,
@@ -89,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginPage(),
+                  builder: (context) => LoginPage(setTheme: widget.setTheme),
                 ),
               );
             },

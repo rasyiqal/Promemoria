@@ -1,4 +1,4 @@
-import 'package:doa/pages/Home/body/Doa.dart';
+import 'package:doa/pages/Home/body/profile.dart';
 import 'package:doa/pages/Home/future_screen.dart';
 import 'package:doa/pages/Home/body/user_list.dart';
 import 'package:doa/pages/Login/LoginPage.dart';
@@ -14,6 +14,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  
   const MyApp({super.key});
 
   @override
@@ -22,6 +23,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeData themeData = ThemeData.light();
+  
 
   void setTheme(bool isDarkMode) {
     setState(() {
@@ -44,11 +46,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Reminder App',
       theme: themeData,
       routes: {
-        '/':(context) => SplashScreen(setTheme: setTheme),
-        '/login':(context) => LoginPage(),
-        '/register':(context) => RegisterPage(),
-        '/future':(context) => FutureScreen(setTheme: setTheme),
-        '/list_user':(context) => ListUser(),
+        '/': (context) => SplashScreen(setTheme: setTheme),
+        '/login': (context) => LoginPage(setTheme: setTheme),
+        '/register': (context) => RegisterPage(),
+        '/future': (context) =>
+            FutureScreen(setTheme: setTheme, user: ""),
+        '/profile': (context) => ProfilePage(setTheme: setTheme, user: ""),
+        '/list_user': (context) => ListUser(setTheme: setTheme, user: ""),
       },
     );
   }

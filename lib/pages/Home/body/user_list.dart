@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 
 class ListUser extends StatefulWidget {
-  const ListUser({super.key});
-//  Function setTheme;
-//   ListUser({Key? key, required this.setTheme}) : super(key: key);
+  Function setTheme;
+  final String? user;
+  ListUser({Key? key, required this.setTheme, required this.user}) : super(key: key);
 
   @override
   State<ListUser> createState() => _ListUserState();
@@ -26,7 +26,7 @@ class _ListUserState extends State<ListUser> {
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
             onPressed: (() {
-              Navigator.pushNamed(context, '/profile');
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FutureScreen(setTheme: widget.setTheme, user: widget.user?? "-"),));
             }),
             icon: Icon(Icons.arrow_back_ios)),
         title: Text(
@@ -38,12 +38,12 @@ class _ListUserState extends State<ListUser> {
         ),
       ),
       body: SafeArea(
-        child: FutureBuilder<List<User>>(
+        child: FutureBuilder<List<UserModel>>(
           future: apiUser.fecthDataUser(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print(snapshot.data.toString());
-              List<User> user = snapshot.data;
+              List<UserModel> user = snapshot.data;
               return ListView.builder(
                 itemCount: user.length,
                 itemBuilder: (BuildContext context, int index) {

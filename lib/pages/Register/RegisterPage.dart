@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -144,6 +146,37 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+//  void register(String  username, email, pass) async {
+//     Map data = {
+      
+//       'username': username,
+//       'email': email,
+//       'password': pass,
+      
+//     };
+//     print(data);
+
+//     String body = json.encode(data);
+//     var url = 'http://localhost:3000/user';
+//     var response = await http.post(
+//       url,
+//       body: body,
+//       headers: {
+//         "Content-Type": "application/json",
+//         "accept": "application/json",
+//         "Access-Control-Allow-Origin": "*"
+//       },
+//     );
+//     print(response.body);
+//     print(response.statusCode);
+//     if (response.statusCode == 200) {
+//       //Or put here your next screen using Navigator.push() method
+//       print('success');
+//     } else {
+//       print('error');
+//     }
+//   }
 
   Container LoginrButton() {
     return Container(
