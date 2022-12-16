@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiUser {
   
-  final String apiUrl = "http://localhost:3000/user";
+  final String apiUrl = "http://192.168.43.14:3000/user";
 
   Future<List<UserModel>> fecthDataUser() async {
 

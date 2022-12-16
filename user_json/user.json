@@ -1,0 +1,28 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "fikri",
+      "email": "rasyiqal@gmail.com",
+      "password": "fikri"
+    },
+    {
+      "id": 2,
+      "username": "fikra",
+      "email": "fikra@gmail.com",
+      "password": "typicode"
+    },
+    {
+      "username": "julpan",
+      "email": "julpan@gmail.com",
+      "password": "12345678",
+      "id": 3
+    },
+    {
+      "username": "aaa",
+      "email": "aaa",
+      "password": "123",
+      "id": 4
+    }
+  ]
+}

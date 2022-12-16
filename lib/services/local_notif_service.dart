@@ -47,7 +47,7 @@ class NotificationServices {
       0,
       title,
       body,
-      DateTime(2022, 12, 12, jam, menit),
+      DateTime(2022, 12, 16, jam, menit),
       // tz.TZDateTime.now(tz.local).add(
       //   Duration(seconds: 1),
       // ),

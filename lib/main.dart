@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (context) => SplashScreen(setTheme: setTheme),
         '/login': (context) => LoginPage(setTheme: setTheme),
-        '/register': (context) => RegisterPage(),
+        '/register': (context) => RegisterPage(setTheme: setTheme, user: "",),
         '/future': (context) =>
             FutureScreen(setTheme: setTheme, user: ""),
         '/profile': (context) => ProfilePage(setTheme: setTheme, user: ""),

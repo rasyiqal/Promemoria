@@ -1,11 +1,16 @@
 import 'dart:convert';
-
+import 'package:email_validator/email_validator.dart';
+import 'package:dio/dio.dart';
+import 'package:doa/pages/Home/future_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:doa/theme/theme.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  Function setTheme;
+  final String? user;
+  RegisterPage({Key? key, required this.setTheme, required this.user})
+      : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -13,9 +18,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool _isHidden = true;
+  bool isLoading = false;
   final usernameController = TextEditingController(text: '');
+  final emailController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
-  final passwordConfirm = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +51,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 24,
                   ),
-                  PasswordTextField(),
+                  emailTextField(),
                   SizedBox(
                     height: 24,
                   ),
-                  ConfirmPasswordTextField(),
-                  SizedBox(
-                    height: 42,
-                  ),
+                  PasswordTextField(),
                   SizedBox(
                     height: 80,
                   ),
@@ -83,10 +86,33 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Container emailTextField() {
+    return Container(
+      child: TextFormField(
+        controller: emailController,
+        validator: (value) =>
+            EmailValidator.validate(value!) ? null : "Masukka email yang valid",
+        maxLines: 1,
+        decoration: InputDecoration(
+          icon: Icon(Icons.key, color: Colors.deepPurple),
+          hintText: "isi email anda",
+          labelText: "Email",
+        ),
+      ),
+    );
+  }
+
   Container PasswordTextField() {
     return Container(
       child: TextFormField(
         controller: passwordController,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "silahkan isi password lebih dulu";
+          }
+          return null;
+        },
+        maxLines: 1,
         obscureText: _isHidden,
         decoration: InputDecoration(
           suffix: InkWell(
@@ -95,26 +121,10 @@ class _RegisterPageState extends State<RegisterPage> {
               _isHidden ? Icons.visibility : Icons.visibility_off,
             ),
           ),
-          icon: Icon(Icons.key, color: Colors.deepPurple),
-          hintText: "Isi Password",
-          labelText: "Password",
-        ),
-      ),
-    );
-  }
-
-  Container ConfirmPasswordTextField() {
-    return Container(
-      child: TextFormField(
-        controller: passwordController,
-        decoration: InputDecoration(
-          suffix: InkWell(
-            onTap: _togglePasswordView,
-            child: Icon(
-              _isHidden ? Icons.visibility : Icons.visibility_off,
-            ),
+          icon: Icon(
+            Icons.key,
+            color: Colors.deepPurple,
           ),
-          icon: Icon(Icons.key, color: Colors.deepPurple),
           hintText: "Isi Password",
           labelText: "Password",
         ),
@@ -126,57 +136,84 @@ class _RegisterPageState extends State<RegisterPage> {
     return Container(
       child: Container(
         width: double.infinity,
-        height: 32,
+        height: 52,
         child: TextButton(
-          child: Text(
-            'Register',
-            style: whiteTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: regular,
-            ),
-          ),
+          child: isLoading
+              ? CircularProgressIndicator(
+                  color: kWhiteColor,
+                  backgroundColor: kGreyColor,
+                )
+              : Text(
+                  'Register',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: semiBold,
+                  ),
+                ),
           style: TextButton.styleFrom(
             backgroundColor: Colors.deepPurple,
             padding: EdgeInsets.symmetric(
               horizontal: 24,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              isLoading = false;
+            });
+            Future.delayed(Duration(seconds: 2),
+            (() {
+              setState(
+              () {
+                isLoading = true;
+                try {
+                  if (usernameController.text.isNotEmpty &&
+                      emailController.text.isNotEmpty &&
+                      passwordController.text.isNotEmpty) {
+                    print("proses");
+                    register(usernameController.text, emailController.text,
+                        passwordController.text, context);
+                  } else {
+                    print('fail');
+                    final snackBar = SnackBar(
+                      backgroundColor: Color.fromARGB(255, 255, 0, 0),
+                      content: Text(
+                        'Mohon lengkapi data',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                } catch (e) {
+                  print(e);
+                }
+              },
+            );
+            }));
+          },
         ),
       ),
     );
   }
 
-//  void register(String  username, email, pass) async {
-//     Map data = {
-      
-//       'username': username,
-//       'email': email,
-//       'password': pass,
-      
-//     };
-//     print(data);
-
-//     String body = json.encode(data);
-//     var url = 'http://localhost:3000/user';
-//     var response = await http.post(
-//       url,
-//       body: body,
-//       headers: {
-//         "Content-Type": "application/json",
-//         "accept": "application/json",
-//         "Access-Control-Allow-Origin": "*"
-//       },
-//     );
-//     print(response.body);
-//     print(response.statusCode);
-//     if (response.statusCode == 200) {
-//       //Or put here your next screen using Navigator.push() method
-//       print('success');
-//     } else {
-//       print('error');
-//     }
-//   }
+  void register(String nama, email, password, BuildContext context) async {
+    try {
+      var response = await Dio().post('http://192.168.43.14:3000/user',
+          data: {"username": nama, "email": email, "password": password});
+      if (response.statusCode == 201) {
+        print("akun berhasil dibuat");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                FutureScreen(setTheme: widget.setTheme, user: ""),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Container LoginrButton() {
     return Container(
